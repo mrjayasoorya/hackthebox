@@ -1,6 +1,6 @@
 # Basics - Cybersecurity | Ethical Hacking
 
-## These are the ***Common Terms*** we will come accross in learning
+## These are the ***<u>Common Terms</u>*** we will come accross in learning
 
 <br/>
 
@@ -74,7 +74,7 @@ Number | Category  | Description
 <hr style="height:3px;background:gray">
 <br/>
 
-## Basic Tools
+## <u>Basic Tools</u>
 
 Tools such as SSH, Netcat, Tmux, and Vim are essential and are used daily by most information security professionals. Although these tools are not intended to be penetration testing tools, they are critical to the penetration testing process, so we must master them.
 
@@ -87,6 +87,7 @@ It is mainly used to connect with remote server, and can run commands like insta
 
 SSH is primarily a character oriented protocol, for a human with a keyboard to send commands to a remote Command Line Interface for execution.
 
+<a id="ftp_section"></a>
 **SFTP - Secure File Transfer Protocol:**<br/>
 SFTP uses ssh protocol internelly , but this is used to upload / download large files
 
@@ -95,13 +96,15 @@ SFTP uses ssh protocol internelly , but this is used to upload / download large 
 - there are two separate copies of the file: the original file on the FTP server and the copy of the file on the FTP client. The two files are then independent: any changes in one copy of the file are not reflected in the other copy.
 
 **SMB - Server Message Block:**<br/>
-SMB is primarily a file sharing (and printer sharing) protocol; no access to the command line. 
+SMB is primarily a file sharing (and printer sharing) protocol; no access to the command line.
 
 SMB is a File Server protocol. Its primary purpose is to allow multiple users to read and write from the same file that is stored only on the File Server.
 
 -the SMB client does not have to use any local storage to store a copy of the file. It can read and write data directly on the File Server.
 
 -any changes that one user makes to the file are immediately visible to the other users of the same file. There is only a single file that is shared by multiple users.
+
+SMB (Server Message Block) is a prevalent protocol on Windows machines that provides many vectors for vertical and lateral movement. Sensitive data, including credentials, can be in network file shares, and some SMB versions may be vulnerable to RCE exploits such as EternalBlue. It is crucial to enumerate this sizeable potential attack surface carefully. Nmap has many scripts for enumerating SMB, such as smb-os-discovery.nse, which will interact with the SMB service to extract the reported operating system version.
 
 ---
 
@@ -172,7 +175,7 @@ Netcat functions as a back-end tool that allows for port scanning and port liste
 
 Netcat, ncat, or nc, is an excellent network utility for interacting with TCP/UDP ports. It can be used for many things during a pentest. Its primary usage is for connecting to shells, which we'll discuss later in this module. In addition to that, netcat can be used to connect to any listening port and interact with the service running on that port. For example, SSH is programmed to handle connections over port 22 to send all data and keys. We can connect to TCP port 22 with netcat:
 
-Netcat is a simple program that reads and writes data across networks, much the same way that cat reads and writes data to files. Netcat's functionality is helpful as both a standalone program and a back-end tool in a wide range of applications. Some of the many uses of Netcat include port scanning, transferring files, grabbing banners, port listening and redirection, and more nefariously, a backdoor. 
+Netcat is a simple program that reads and writes data across networks, much the same way that cat reads and writes data to files. Netcat's functionality is helpful as both a standalone program and a back-end tool in a wide range of applications. Some of the many uses of Netcat include port scanning, transferring files, grabbing banners, port listening and redirection, and more nefariously, a backdoor.
 
 ### **Using Tmux**
 
@@ -181,3 +184,27 @@ Terminal multiplexers, like tmux or Screen, are great utilities for expanding a 
 ### **Using Vim**
 
 Vim is a great text editor that can be used for writing code or editing text files on Linux systems. One of the great benefits of using Vim is that it relies entirely on the keyboard, so you do not have to use the mouse, which (once we get the hold of it) will significantly increase your productivity and efficiency in writing/editing code. We usually find Vim or Vi installed on compromised Linux systems, so learning how to use it allows us to edit files even on remote systems. Vim also has many other features, like extensions and plugins, which can significantly extend its usage and make for a great code editor. Let's see some of the basics of Vim. To open a file with Vim, we can add the file name after it:
+
+## **<u>Service Scanning</u>**
+
+### Nmap
+
+Let us start with the most basic scan. Suppose that we want to perform a basic scan against a target residing at 10.129.42.253. To do this we should type nmap 10.129.42.253 and hit return. We see that the Nmap scan was completed very quickly. This is because if we don't specify any additional options, Nmap will only scan the 1,000 most common ports by default. The scan output reveals that ports 21, 22, 80, 139, and 445 are available.
+
+
+## **<u>Attacking Network Services</u>**
+
+## FTP
+FTP will also comes under this, detailed explaniation given [here](#ftp_section)
+
+## Banner Grabbing
+
+As previously discussed, banner grabbing is a useful technique to fingerprint a service quickly. Often a service will look to identify itself by displaying a banner once a connection is initiated. Nmap will attempt to grab the banners if the syntax nmap -sV --script=banner <target> is specified. We can also attempt this manually using Netcat. Let us take another example, using the nc version of Netcat:
+
+### Shares
+
+SMB allows users and administrators to share folders and make them accessible remotely by other users. Often these shares have files in them that contain sensitive information such as passwords. A tool that can enumerate and interact with SMB shares is smbclient. The -L flag specifies that we want to retrieve a list of available shares on the remote host, while -N suppresses the password prompt.
+
+### SNMP
+
+SNMP Community strings provide information and statistics about a router or device, helping us gain access to it. The manufacturer default community strings of public and private are often unchanged. In SNMP versions 1 and 2c, access is controlled using a plaintext community string, and if we know the name, we can gain access to it. Encryption and authentication were only added in SNMP version 3. Much information can be gained from SNMP. Examination of process parameters might reveal credentials passed on the command line, which might be possible to reuse for other externally accessible services given the prevalence of password reuse in enterprise environments. Routing information, services bound to additional interfaces, and the version of installed software can also be revealed.
