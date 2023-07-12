@@ -17,15 +17,11 @@
 
  We will often read about or hear others talking about "getting a shell" on a box (system). This means that the target host has been exploited, and we have obtained shell-level access (typically bash or sh) and can run commands interactively as if we are sitting logged in to the host. A shell may be obtained by exploiting a web application or network/service vulnerability or obtaining credentials and logging into the target host remotely. There are three main types of shell connections:
 
-
-
-Shell Type        | Description 
+Shell Type        | Description
 ------------------|----------
  Reverse shell    | Initiates a connection back to a "listener" on our attack box.
  Bind shell       | "Binds" to a specific port on the target host and waits for a connection from our attack box.
  Web shell        | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a PHP script to run a single command.
-
-
 
 ### **What is a Port?**
 
@@ -37,18 +33,18 @@ There are two categories of ports, Transmission Control Protocol (TCP), and User
 TCP is connection-oriented, meaning that a connection between a client and a server must be established before data can be sent. The server must be in a listening state awaiting connection requests from clients.
 UDP utilizes a connectionless communication model. There is no "handshake" and therefore introduces a certain amount of unreliability since there is no guarantee of data delivery. UDP is useful when error correction/checking is either not needed or is handled by the application itself. UDP is suitable for applications that run time-sensitive tasks since dropping packets is faster than waiting for delayed packets due to retransmission, as is the case with TCP and can significantly affect a real-time system. There are 65,535 TCP ports and 65,535 different UDP ports, each denoted by a number. Some of the most well-known TCP and UDP ports are listed below:
 
-Port(s)	    |    Protocol
+Port(s)     |    Protocol
 ------------------|----------
-20/21 (TCP)	|    FTP
-22 (TCP)	|    SSH
-23 (TCP)	|    Telnet
-25 (TCP)	|    SMTP
-80 (TCP)	|    HTTP
-161 (TCP/UDP) |	SNMP
-389 (TCP/UDP) |	LDAP
-443 (TCP)	|    SSL/TLS (HTTPS)
-445 (TCP)	|    SMB
-3389 (TCP)	|    RDP
+20/21 (TCP) |    FTP
+22 (TCP) |    SSH
+23 (TCP) |    Telnet
+25 (TCP) |    SMTP
+80 (TCP) |    HTTP
+161 (TCP/UDP) | SNMP
+389 (TCP/UDP) | LDAP
+443 (TCP) |    SSL/TLS (HTTPS)
+445 (TCP) |    SMB
+3389 (TCP) |    RDP
 
 Guides such as [this](https://www.stationx.net/common-ports-cheat-sheet/) and [this](https://packetlife.net/media/library/23/common-ports.pdf) are great resources for learning standard and less common TCP and UDP ports. Challenge yourself to memorize as many of these as possible and do some research about each of the protocols listed in the table above. This is a great reference on the top 1,000 TCP and UDP ports from nmap along with the top 100 services scanned by nmap.
 
@@ -60,8 +56,7 @@ As web applications tend to be open for public interaction and facing the intern
 
 Many types of vulnerabilities can affect web applications. We will often hear about/see references to the [OWASP Top 10](https://owasp.org/www-project-top-ten/). This is a standardized list of the top 10 web application vulnerabilities maintained by the Open Web Application Security Project (OWASP). This list is considered the top 10 most dangerous vulnerabilities and is not an exhaustive list of all possible web application vulnerabilities. Web application security assessment methodologies are often based around the OWASP top 10 as a starting point for the top categories of flaws that an assessor should be checking for. [The current OWASP Top 10 list is:](https://owasp.org/www-project-top-ten/)
 
-
-Number |	Category  |	Description
+Number | Category  | Description
 ------------------|---------- | ---
 1 |    Broken Access Control   |   Restrictions are not appropriately implemented to prevent users from accessing other users accounts, viewing sensitive data, accessing unauthorized functionality, modifying data, etc.
 2   |   ryptographic Failures   |   Failures related to cryptography which often leads to sensitive data exposure or system compromise.
@@ -69,7 +64,120 @@ Number |	Category  |	Description
 4   |    Insecure Design   |   These issues happen when the application is not designed with security in mind.
 5   |    Security Misconfiguration   |   Missing appropriate security hardening across any part of the application stack, insecure default configurations, open cloud storage, verbose error messages which disclose too much information.
 6   |    Vulnerable and Outdated Components   |   Using components (both client-side and server-side) that are vulnerable, unsupported, or out of date.
-7   |    Identification and Authentication Failures   |   	Authentication-related attacks that target user's identity, authentication, and session management.
+7   |    Identification and Authentication Failures   |    Authentication-related attacks that target user's identity, authentication, and session management.
 8   |    Software and Data Integrity Failures   |   Software and data integrity failures relate to code and infrastructure that does not protect against integrity violations. An example of this is where an application relies upon plugins, libraries, or modules from untrusted sources, repositories, and content delivery networks (CDNs).
 9   |    Security Logging and Monitoring Failures   |   This category is to help detect, escalate, and respond to active breaches. Without logging and monitoring, breaches cannot be detected..
 10   |    Server-Side Request Forgery   |   SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall, VPN, or another type of network access control list (ACL).
+
+<br/>
+
+<hr style="height:3px;background:gray">
+<br/>
+
+## Basic Tools
+
+Tools such as SSH, Netcat, Tmux, and Vim are essential and are used daily by most information security professionals. Although these tools are not intended to be penetration testing tools, they are critical to the penetration testing process, so we must master them.
+
+### **Difference between SSH, SFTP, SMB**
+
+SSH, SFTP, SMB are different protocols and they are having respective works to do
+
+**SSH - Secure Shell**:<br/>
+It is mainly used to connect with remote server, and can run commands like installation, etc...
+
+SSH is primarily a character oriented protocol, for a human with a keyboard to send commands to a remote Command Line Interface for execution.
+
+**SFTP - Secure File Transfer Protocol:**<br/>
+SFTP uses ssh protocol internelly , but this is used to upload / download large files
+
+-the FTP client must have enough local storage space to store a copy of the entire file
+
+- there are two separate copies of the file: the original file on the FTP server and the copy of the file on the FTP client. The two files are then independent: any changes in one copy of the file are not reflected in the other copy.
+
+**SMB - Server Message Block:**<br/>
+SMB is primarily a file sharing (and printer sharing) protocol; no access to the command line. 
+
+SMB is a File Server protocol. Its primary purpose is to allow multiple users to read and write from the same file that is stored only on the File Server.
+
+-the SMB client does not have to use any local storage to store a copy of the file. It can read and write data directly on the File Server.
+
+-any changes that one user makes to the file are immediately visible to the other users of the same file. There is only a single file that is shared by multiple users.
+
+---
+
+**Let me tell you 18 Important protocols that a network engineer must know.
+Before we jump in let us divide these 18 Important protocols into :-**
+
+TCP (Transmission control protocol)
+aka connection oriented protocol - Port No : 06
+It works on transport layer of OSI (Open System Interaction) Model.
+It is three way handshake.
+
+List of TCP Protocols:-
+
+FTP (File Transfer Protocol) : It transfers file/folders/document/data between two devices. It does not matter that file transfer is happening in same network or completely different network.
+Port No : 20
+Port No : 21 (for establishing and maintaining connection)
+TFTP (Trivial File Transfer Protocol) : FTP asks for username and password. whereas TFTP doesn’t.
+Port No : 69
+SFTP (Secure File Transfer Protocol) : It encrypts the data. It is more secure than FTP & TFTP.
+Port No : 22 (Secure shell)
+TELNET : It is used for accessing the device/ system remotely & not secure at all. No GUI, configured using CMD.
+Port No : 23
+e-Mailing services also use TCP:-
+SMTP(Simple Mail Transfer Protocol) : It is used by mail server to communicate with another mail server.
+Port No : 25
+Port No : 465 ( Port is secured using TLS & SSL)
+IMAP4 (Internet Mail Access Protocol) : It downloads a copy of mail from the mail server whereas original mail is still on the server.
+Port No : 143
+Port No : 993 ( Port is secured using TLS & SSL)
+POP3 (Post Office Protocol 3) : It downloads the original mail from the mail server,sSaves it physically in your computer and if you delete that mail it will be completely vanished from server too. you can’t get it back.
+Port No : 110
+Port No : 995 (Port is secured using TLS & SSL)
+HTTP (Hyper Text Transfer Protocol): It is makes you to see a web page.
+Port No : 80
+HTTPS (Hyper Text Transfer Protocol Secure): Http turns into https for making itself more secure.
+Port No : 443 (Port is secured using TLS & SSL)
+UDP (User Datagram Protocol)
+aka connection less protocol - Port No : 17
+
+List of UDP Protocols:-
+
+SNMP (Simple Network Management Protocol) : It gathers information of the network infrastructure like active routers, switches, firewalls, servers, etc and sends this information to admin.
+Port No : 161
+Port No : 162 (secure Port using Transport layer security)
+NTP (Network Time Protocol) : It synchronizes servers on time for providing applications and other services to clients.
+Port No : 123
+SIP ( Session Initiation Protocol) : It works with Video and voice.
+Port No : 5060
+Port No : 5061 (secure Port using Transport layer security)
+RTSP ( Real Time Streaming Protocol) : it is used by servers for streaming media like youtube.
+Port No : 554
+DHCP ( Dynamic Host Configuration Protocol) : It dynamically provides ip address, subnet mask, default gateway, dns a complete tcp/ip setting to a device actively connected to network. Small companies uses DHCP in router while big companies uses it in servers.
+Port No : 67
+Port No : 68
+TCP & UDP Both
+
+LDAP (Lightweight Directory Access Protocol) : It has a directory(active directory) of all the data related to Network System like username of person using device (first name, last name etc), password & other details of user, name of devices( printers/switches/routers/servers etc).
+Port No : 389
+RDP (Remote Desktop Protocol): It uses windows. it connects & manages the computer remotely(probably miles away.
+Port No : 3389
+DNS (Domain Name System) : Huge Protocol. It is used for remembering domain names like facebook.com, youtube.com. As we know that system works in binary but we humans are more comfortable with names and decimal numbers. Humans write names of websites and DNS converts that name into numbers (ip address) so that system can understand the request and user can get the desired result.
+Port No : 53
+TCP & UDP are the huge protocols out there and all others protocols basically rely on either TCP or UDP or Both, which works on the transport layer of OSI (Open System Interaction) Model.
+
+### **Using Netcat:**
+
+Netcat functions as a back-end tool that allows for port scanning and port listening. In addition, you can actually transfer files directly through Netcat or use it as a backdoor into other networked systems
+
+Netcat, ncat, or nc, is an excellent network utility for interacting with TCP/UDP ports. It can be used for many things during a pentest. Its primary usage is for connecting to shells, which we'll discuss later in this module. In addition to that, netcat can be used to connect to any listening port and interact with the service running on that port. For example, SSH is programmed to handle connections over port 22 to send all data and keys. We can connect to TCP port 22 with netcat:
+
+Netcat is a simple program that reads and writes data across networks, much the same way that cat reads and writes data to files. Netcat's functionality is helpful as both a standalone program and a back-end tool in a wide range of applications. Some of the many uses of Netcat include port scanning, transferring files, grabbing banners, port listening and redirection, and more nefariously, a backdoor. 
+
+### **Using Tmux**
+
+Terminal multiplexers, like tmux or Screen, are great utilities for expanding a standard Linux terminal's features, like having multiple windows within one terminal and jumping between them. Let's see some examples of using tmux, which is the more common of the two. If tmux is not present on our Linux system, we can install it with the following command:
+
+### **Using Vim**
+
+Vim is a great text editor that can be used for writing code or editing text files on Linux systems. One of the great benefits of using Vim is that it relies entirely on the keyboard, so you do not have to use the mouse, which (once we get the hold of it) will significantly increase your productivity and efficiency in writing/editing code. We usually find Vim or Vi installed on compromised Linux systems, so learning how to use it allows us to edit files even on remote systems. Vim also has many other features, like extensions and plugins, which can significantly extend its usage and make for a great code editor. Let's see some of the basics of Vim. To open a file with Vim, we can add the file name after it:
