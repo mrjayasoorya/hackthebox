@@ -249,3 +249,50 @@ SMB allows users and administrators to share folders and make them accessible re
 
 SNMP Community strings provide information and statistics about a router or device, helping us gain access to it. The manufacturer default community strings of public and private are often unchanged. In SNMP versions 1 and 2c, access is controlled using a plaintext community string, and if we know the name, we can gain access to it. Encryption and authentication were only added in SNMP version 3. Much information can be gained from SNMP. Examination of process parameters might reveal credentials passed on the command line, which might be possible to reuse for other externally accessible services given the prevalence of password reuse in enterprise environments. Routing information, services bound to additional interfaces, and the version of installed software can also be revealed.
 
+---
+
+## Web Enumeration
+
+When performing service scanning, we will often run into web servers running on ports 80 and 443. Webservers host web applications (sometimes more than 1) which often provide a considerable attack surface and a very high-value target during a penetration test. Proper web enumeration is critical, especially when an organization is not exposing many services or those services are appropriately patched.
+
+#### Gobuster
+
+After discovering a web application, it is always worth checking to see if we can uncover any hidden files or directories on the webserver that are not intended for public access. We can use a tool such as ffuf or GoBuster to perform this directory enumeration. Sometimes we will find hidden functionality or pages/directories exposing sensitive data that can be leveraged to access the web application or even remote code execution on the web server itself.
+
+**Directory/File Enumeration**
+
+GoBuster is a versatile tool that allows for performing DNS, vhost, and directory brute-forcing. The tool has additional functionality, such as enumeration of public AWS S3 buckets. For this module's purposes, we are interested in the directory (and file) brute-forcing modes specified with the switch dir. Let us run a simple scan using the dirb common.txt wordlist.
+
+jayasooryamr@htb[/htb]$ gobuster dir -u http://10.10.10.121/ -w /usr/share/dirb/wordlists/common.txt
+
+**DNS Subdomain Enumeration**
+
+There also may be essential resources hosted on subdomains, such as admin panels or applications with additional functionality that could be exploited. We can use GoBuster to enumerate available subdomains of a given domain using the dns flag to specify DNS mode. First, let us clone the SecLists GitHub repo, which contains many useful lists for fuzzing and exploitation:
+
+**Install SecLists**
+
+
+## Web Enumeration Tips
+
+**Banner Grabbing / Web Server Headers**
+
+In the last section, we discussed banner grabbing for general purposes. Web server headers provide a good picture of what is hosted on a web server. They can reveal the specific application framework in use, the authentication options, and whether the server is missing essential security options or has been misconfigured. We can use cURL to retrieve server header information from the command line. cURL is another essential addition to our penetration testing toolkit, and familiarity with its many options is encouraged.
+
+**Whatweb**
+
+We can extract the version of web servers, supporting frameworks, and applications using the command-line tool whatweb. This information can help us pinpoint the technologies in use and begin to search for potential vulnerabilities.
+
+Whatweb is a handy tool and contains much functionality to automate web application enumeration across a network.
+
+
+**Certificates:**
+
+SSL/TLS certificates are another potentially valuable source of information if HTTPS is in use. Browsing to https://10.10.10.121/ and viewing the certificate reveals the details below, including the email address and company name. These could potentially be used to conduct a phishing attack if this is within the scope of an assessment.
+
+**Robots.txt**
+
+It is common for websites to contain a robots.txt file, whose purpose is to instruct search engine web crawlers such as Googlebot which resources can and cannot be accessed for indexing. The robots.txt file can provide valuable information such as the location of private files and admin pages. In this case, we see that the robots.txt file contains two disallowed entries.
+
+**Source Code**
+
+It is also worth checking the source code for any web pages we come across. We can hit [CTRL + U] to bring up the source code window in a browser. This example reveals a developer comment containing credentials for a test account, which could be used to log in to the website.
