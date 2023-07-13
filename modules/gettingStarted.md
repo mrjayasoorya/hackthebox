@@ -202,6 +202,45 @@ FTP will also comes under this, detailed explaniation given [here](#ftp_section)
 
 As previously discussed, banner grabbing is a useful technique to fingerprint a service quickly. Often a service will look to identify itself by displaying a banner once a connection is initiated. Nmap will attempt to grab the banners if the syntax nmap -sV --script=banner <target> is specified. We can also attempt this manually using Netcat. Let us take another example, using the nc version of Netcat:
 
+It is a method used by security teams and hackers to gain information about network computer systems and services by running on open ports. A banner is a piece of information displayed by a host that provides details about the service or system, such as its software version, operating system, and other facts. This text contained in a banner can help identify the software name, software version numbers, and operating systems running on network hosts, which can then be used to find out the vulnerabilities in the network. 
+
+This technique can be practiced manually or automatically using tools such as Nmap, Netcat, Nikro, cURL, and Wget. Running a banner-grabbing attack can be useful for security testing and vulnerability assessment. This is because it helps identify vulnerable and insecure applications that can compromise and exploit the target system. 
+
+#### Types of Banner Grabbing
+
+**Active Banner Grabbing**
+
+Here, attackers send packets to a remote host and analyze the response data. This attack involves establishing a Transmission Control Protocol (TCP)  or similar connection between an origin and remote host. It is one of the most widely-used techniques. However, it is also a risky approach as such attempts can be easily detected by Intrusion Detection Systems (IDS).
+
+**Passive Banner Grabbing**
+
+This method allows attackers to capture information without sending any requests or traffic to the system. Hence, there is no risk detection. It involves deploying malware and software as a gateway to prevent a direct connection.  Also, it entails using third-party network tools and services, such as Shodan, search engines, or traffic sniffing, to gather and analyze packets to determine the software and versions running on the target server. 
+
+**Banner Grabbing Tools**
+
+ - **Telnet:** A widely-used cross-platform client which provides a
+   command-line interface that allows users to interact with remote
+   services and systems
+   
+ - **Netcat:** One of the most popular and oldest tools for network   
+   exploration, administration, and security testing on Unix and Linux  
+   systems
+
+ - **Wget:** A great tool that leads users to remote banners or local   
+   servers and utilizes a simple script to eliminate expected output and
+   display HTTP server headers
+
+ - **Nmap:** A simple and effective tool designed to establish a connection 
+   to an open TCP port on a target system and quickly retrieve details  
+   provided by the listening service
+   
+ - **Whatweb:** A tool that identifies websites and allows hackers and   
+   security analysts to capture the banner of web applications by   
+   revealing server information such as IP, operating system, and   
+   version
+
+
+
 ### Shares
 
 SMB allows users and administrators to share folders and make them accessible remotely by other users. Often these shares have files in them that contain sensitive information such as passwords. A tool that can enumerate and interact with SMB shares is smbclient. The -L flag specifies that we want to retrieve a list of available shares on the remote host, while -N suppresses the password prompt.
@@ -209,3 +248,4 @@ SMB allows users and administrators to share folders and make them accessible re
 ### SNMP
 
 SNMP Community strings provide information and statistics about a router or device, helping us gain access to it. The manufacturer default community strings of public and private are often unchanged. In SNMP versions 1 and 2c, access is controlled using a plaintext community string, and if we know the name, we can gain access to it. Encryption and authentication were only added in SNMP version 3. Much information can be gained from SNMP. Examination of process parameters might reveal credentials passed on the command line, which might be possible to reuse for other externally accessible services given the prevalence of password reuse in enterprise environments. Routing information, services bound to additional interfaces, and the version of installed software can also be revealed.
+
