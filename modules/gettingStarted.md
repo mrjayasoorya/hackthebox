@@ -296,3 +296,48 @@ It is common for websites to contain a robots.txt file, whose purpose is to inst
 **Source Code**
 
 It is also worth checking the source code for any web pages we come across. We can hit [CTRL + U] to bring up the source code window in a browser. This example reveals a developer comment containing credentials for a test account, which could be used to log in to the website.
+
+
+## Public Exploits
+
+Once we identify the services running on ports identified from our Nmap scan, the first step is to look if any of the applications/services have any public exploits. Public exploits can be found for web applications and other applications running on open ports, like SSH or ftp.
+
+**Finding Public Exploits**
+
+Many tools can help us search for public exploits for the various applications and services we may encounter during the enumeration phase. One way is to Google for the application name with exploit to see if we get any results:
+
+A well-known tool for this purpose is searchsploit, which we can use to search for public vulnerabilities/exploits for any application. We can install it with the following command:
+
+`jayasooryamr@htb[/htb]$ sudo apt install exploitdb -y`
+
+Then, we can use searchsploit to search for a specific application by its name, as follows:
+
+`jayasooryamr@htb[/htb]$ searchsploit openssh 7.2`
+
+We can also utilize online exploit databases to search for vulnerabilities, like Exploit DB, Rapid7 DB, or Vulnerability Lab. The Intro to Web Applications module discusses public vulnerabilities for web applications.
+
+
+## Metasploit Primer
+
+The Metasploit Framework (MSF) is an excellent tool for pentesters. It contains many built-in exploits for many public vulnerabilities and provides an easy way to use these exploits against vulnerable targets. MSF has many other features, like:
+
+- Running reconnaissance scripts to enumerate remote hosts and compromised targets
+
+- Verification scripts to test the existence of a vulnerability without actually compromising the target
+
+- Meterpreter, which is a great tool to connect to shells and run commands on the compromised targets
+
+- Many post-exploitation and pivoting tools
+
+Let us take a basic example of searching for an exploit for an application we are attacking and how to exploit it. To run Metasploit, we can use the msfconsole command:
+
+`jayasooryamr@htb[/htb]$ msfconsole`
+
+Once we have Metasploit running, we can search for our target application with the search exploit command. For example, we can search for the SMB vulnerability we identified previously:
+
+`msf6 > search exploit eternalblue`
+d
+> Tip: Search can apply complex filters such as search cve:2009 type:exploit. See all the filters with help search
+
+[//]: <> (need to learn this metasploit primer more in detail)
+[//]: <> (https://academy.hackthebox.com/module/77/section/843)
