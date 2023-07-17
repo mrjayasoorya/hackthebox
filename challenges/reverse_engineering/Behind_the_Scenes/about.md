@@ -30,3 +30,5 @@ strace -f ./behindthescenes
 hexdump -C ./behindthescenes | head
 hexeditor ./behindthescenes
 
+. .. .rb. flag .wb. flag .enc .
+
