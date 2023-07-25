@@ -5,3 +5,6 @@ https://book.hacktricks.xyz/generic-methodologies-and-resources/pentesting-netwo
 
 //https://gist.github.com/b33t1e/3079c10c88cad379fb166c389ce3b7b3
 //https://notes.sjtu.edu.cn/s/MUUhEymt7
+
+
+https://book.hacktricks.xyz/pentesting-web/file-inclusion
